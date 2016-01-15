@@ -16,13 +16,18 @@ app.controller('MainCtrl', [
 		$scope.addPost = function() {
 			//prevent users from posting empty post.
 			if ($scope.title === '' ) { return; }
-			$scope.posts.push({title: $scope.title, upvotes: 0});
+			$scope.posts.push({
+				title: $scope.title,
+				link: $scope.link,
+				upvotes: 0
+			});
+			//clear out title and link after enter button is hit
 			$scope.title = '';
-		
+			$scope.link = '';
 		}
-
-		$scope.incrementUpvotes = function() {
-			posts.upvotes += 1;
+		//upvote feature
+		$scope.incrementUpvotes = function(post) {
+			post.upvotes += 1;
 		}
 			
 	}]);
