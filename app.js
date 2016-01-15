@@ -12,9 +12,22 @@ app.controller('MainCtrl', [
 			{title: 'post 5', upvotes: 4}
 		];
 
+		//post posts
 		$scope.addPost = function() {
-			$scope.posts.push({title: 'A new post!', upvotes: 0});
-		
+			//prevent users from posting empty post.
+			if ($scope.title === '' ) { return; }
+			$scope.posts.push({
+				title: $scope.title,
+				link: $scope.link,
+				upvotes: 0
+			});
+			//clear out title and link after enter button is hit
+			$scope.title = '';
+			$scope.link = '';
+		}
+		//upvote feature
+		$scope.incrementUpvotes = function(post) {
+			post.upvotes += 1;
 		}
 			
 	}]);
