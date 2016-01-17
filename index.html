@@ -30,7 +30,7 @@
 					<span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(post)"></span>
 					{{post.upvotes}}
 					<span class="idk">
-						<a ng-show="post.link" href="{{post.link}}">
+						<a ng-show="post.link" href="{{post.link}}" target="_blank">
 							{{post.title}}
 						</a>
 						<span ng-hide="post.link">
@@ -57,6 +57,27 @@
 					</div>
 					<button class="btn btn-primary" type="submit">Post</button>
 				</form>
-	</script>    
+	</script>
+	<script type="text/ng-template" id="/posts.html">
+	  <div class="page-header">
+	    <h3>
+	      <a ng-show="post.link" href="{{post.link}}">
+	        {{post.title}}
+	      </a>
+	      <span ng-hide="post.link">
+	        {{post.title}}
+	      </span>
+	    </h3>
+	  </div>
+
+	  <div ng-repeat="comment in post.comments | orderBy:'-upvotes'">
+	    <span class="glyphicon glyphicon-thumbs-up"
+	      ng-click="incrementUpvotes(comment)"></span>
+	    {{comment.upvotes}} - by {{comment.author}}
+	    <span style="font-size:20px; margin-left:10px;">
+	      {{comment.body}}
+	    </span>
+	  </div>
+	</script>  
 	</body>
 </html>
