@@ -6,6 +6,12 @@ var app = angular.module('flipperNews', ['ui.router'])
 		url: '/home',
 		templateUrl: '/home.html',
 		controller: 'MainCtrl'
+	})
+
+	.state('posts', {
+		url: '/posts/{id}',
+		templateUrl: '/posts.html',
+		controller: 'PostsCtrl'
 	});
 
 	$urlRouterProvider.otherwise('home');
@@ -41,4 +47,8 @@ var app = angular.module('flipperNews', ['ui.router'])
 			post.upvotes += 1;
 		}
 			
-	}]);
+	}])
+
+.controller('PostsCtrl', ['$scope', '$stateParams', 'posts', function($scope, $stateParams, posts){
+
+}]);
