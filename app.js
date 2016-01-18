@@ -39,7 +39,7 @@ var app = angular.module('flipperNews', ['ui.router'])
 				upvotes: 0,
 				comments: [
 				{author: 'joe', body: 'I too share your feeling', upvotes: 0 },
-				{author: 'bob', body: 'great idea...however everything is wrong', upvotes: 5}
+				{author: 'bob', body: 'great idea...everything is great!', upvotes: 5}
 				]
 
 			});

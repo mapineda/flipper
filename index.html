@@ -22,6 +22,7 @@
     <script src="app.js"></script>
 	<script type="text/ng-template" id="/home.html">
 		<div class="page-header">
+					// <img src="/voodoo.png">
 					<H1>Voodoo</H1>
 					<p>Share what you&#8217ve been dying to say but can&#8217t for fear someone will judge you.</p>
 				</div>
@@ -36,6 +37,9 @@
 						<span ng-hide="post.link">
 							{{post.title}}
 						</span>	
+					</span>
+					<span>
+  						<a href="#/posts/{{$index}}">Comments</a>
 					</span>
 				</div>
 
