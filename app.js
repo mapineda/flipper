@@ -36,7 +36,12 @@ var app = angular.module('flipperNews', ['ui.router'])
 			$scope.posts.push({
 				title: $scope.title,
 				link: $scope.link,
-				upvotes: 0
+				upvotes: 0,
+				comments: [
+				{author: 'joe', body: 'I too share your feeling', upvotes: 0 },
+				{author: 'bob', body: 'great idea...everything is great!', upvotes: 5}
+				]
+
 			});
 			//clear out title and link after enter button is hit
 			$scope.title = '';
@@ -45,10 +50,10 @@ var app = angular.module('flipperNews', ['ui.router'])
 		//upvote feature
 		$scope.incrementUpvotes = function(post) {
 			post.upvotes += 1;
-		}
-			
+		}	
 	}])
 
-.controller('PostsCtrl', ['$scope', '$stateParams', 'posts', function($scope, $stateParams, posts){
+.controller('PostsCtrl', ['$scope', '$stateParams', 'posts', function($scope, $stateParams, posts) {
+	$scope.posts = posts.posts[$stateParams.id];
 
 }]);
