@@ -1,6 +1,6 @@
 ## Flipper ##
 
-This news app will revolutionize the world. 
+This news app will revolutionize the world.
 
 
 # Tech Used #
@@ -14,4 +14,8 @@ This news app will revolutionize the world.
 
 # Contact #
 
+Follow me on twitter:
+@marcoapineda13)['http://twitter.com/marcoapineda13']
+
+Drop me a line:
 hire@marcopineda.com
