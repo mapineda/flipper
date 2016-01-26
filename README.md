@@ -1,6 +1,6 @@
 ## Flipper ##
 
-This news app will revolutionize the world.
+This news app will revolutionize the world. Back end needs work. 
 
 
 # Tech Used #
