@@ -10,14 +10,14 @@ var app = angular.module('flipperNews', ['ui.router'])
 
 	$urlRouterProvider.otherwise('home');
 }])
-
+// factory for posts
 .factory('posts', [function() {
 	var o = {
 		posts: []
 	};
 	return o;
 }])
-
+// main controller 
 .controller('MainCtrl', ['$scope', 'posts', function($scope, posts) {
 		$scope.test = 'Hello World!';
 
@@ -40,5 +40,5 @@ var app = angular.module('flipperNews', ['ui.router'])
 		$scope.incrementUpvotes = function(post) {
 			post.upvotes += 1;
 		}
-			
+
 	}]);
