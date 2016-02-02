@@ -1,17 +1,17 @@
-## Flipper ##
+# Flipper #
 
-This news app will revolutionize the world. 
+This news app will revolutionize the world.
 
 
-# Tech Used #
+## Tech Used ##
 
 - MongoDB
 - Express
 - Angular.js
 - Node.js
 
-# Resources & Further Reading #
+## Resources & Further Reading ##
 
-# Contact #
+## Contact ##
 
 hire@marcopineda.com
