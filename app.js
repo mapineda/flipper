@@ -9,9 +9,9 @@ var app = angular.module('flipperNews', ['ui.router'])
 		})
 
 		.state('posts', {
-			url:'/posts/{id}',
+			url: '/posts/{id}',
 			templateUrl: '/posts.html',
-			controller:'PostsCtrl'
+			controller: 'PostsCtrl'
 		});
 
 		$urlRouterProvider.otherwise('home');
@@ -39,7 +39,7 @@ var app = angular.module('flipperNews', ['ui.router'])
 					upvotes: 0,
 					comments: [
 						{author: 'Joe', body: 'I too, oft, feel this way', upvotes: 0},
-						{author: 'Steve', body:'It is raining sideways!'}
+						{author: 'Steve', body:'It is raining sideways!', upvotes: 0}
 					]
 				});
 				//clear out title and link after enter button is hit
@@ -53,6 +53,18 @@ var app = angular.module('flipperNews', ['ui.router'])
 
 	}])
 	//PostsCtrl
-	.controller('PostsCtrl', ['$scope', '$stateParams', 'posts', function($scope, $stateParams, posts) {
-		$scope.posts = posts.posts[$stateParams.id];
+	app.controller('PostsCtrl', ['$scope', '$stateParams', 'posts', function($scope, $stateParams, posts){
+		$scope.post = posts.posts[$stateParams.id];
+
+		//post comment
+		$scope.addComment = function(){
+		  if($scope.body === '') { return; }
+		  $scope.post.comments.push({
+		    body: $scope.body,
+		    author: 'user',
+		    upvotes: 0
+		  });
+		  $scope.body = '';
+		};
+
 	}]);
