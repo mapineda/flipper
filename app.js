@@ -6,6 +6,12 @@ var app = angular.module('flipperNews', ['ui.router'])
 			url: '/home',
 			templateUrl: '/home.html',
 			controller: 'MainCtrl'
+		})
+
+		.state('posts', {
+			url:'/posts/{id}',
+			templateUrl: '/posts.html',
+			controller:'PostsCtrl'
 		});
 
 		$urlRouterProvider.otherwise('home');
@@ -30,7 +36,11 @@ var app = angular.module('flipperNews', ['ui.router'])
 				$scope.posts.push({
 					title: $scope.title,
 					link: $scope.link,
-					upvotes: 0
+					upvotes: 0,
+					comments: [
+						{author: 'Joe', body: 'I too, oft, feel this way', upvotes: 0},
+						{author: 'Steve', body:'It is raining sideways!'}
+					]
 				});
 				//clear out title and link after enter button is hit
 				$scope.title = '';
@@ -41,4 +51,8 @@ var app = angular.module('flipperNews', ['ui.router'])
 				post.upvotes += 1;
 			}
 
+	}])
+	//PostsCtrl
+	.controller('PostsCtrl', ['$scope', '$stateParams', 'posts', function($scope, $stateParams, posts) {
+		$scope.posts = posts.posts[$stateParams.id];
 	}]);
