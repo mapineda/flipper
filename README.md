@@ -1,6 +1,6 @@
-# Flipper #
+# Flipper aka VooDoo #
 
-This news app will revolutionize the world.
+The brighter the light, the darker the shadow! Feel safe to air out your grievances without fear of judgement. Try VooDoo today! 
 
 
 ## Tech Used ##
@@ -11,6 +11,8 @@ This news app will revolutionize the world.
 - Node.js
 
 ## Resources & Further Reading ##
+
+
 
 ## Contact ##
 
