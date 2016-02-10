@@ -1,6 +1,6 @@
 # Flipper aka VooDoo #
 
-The brighter the light, the darker the shadow! Feel safe to air out your grievances without fear of judgement. Try VooDoo today! 
+The brighter the light, the darker the shadow! Feel safe to air out your grievances without fear of judgement. Try VooDoo today!
 
 
 ## Tech Used ##
@@ -12,6 +12,11 @@ The brighter the light, the darker the shadow! Feel safe to air out your grievan
 
 ## Resources & Further Reading ##
 
+[MongoDB](https://docs.mongodb.org/manual/) Documentation
+
+(Express)[http://expressjs.com/] Documentation
+(Angular)[https://angularjs.org/] Documentation
+(Node.js)[https://nodejs.org/en/] Documentation 
 
 
 ## Contact ##
