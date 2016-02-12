@@ -21,3 +21,5 @@ The brighter the light, the darker the shadow! Feel safe to air out your grievan
 ## Contact ##
 
 hire@marcopineda.com
+
+Follow on [twitter](http://twitter.com/marcoapineda13)
