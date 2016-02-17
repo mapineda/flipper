@@ -2,6 +2,12 @@
 
 The brighter the light, the darker the shadow. Feel safe to air out your grievances without fear of judgement. Try VooDoo today!
 
+## Getting Started ##
+
+1. Go to url
+2. Create an Account.
+3. Submit a comment or post.
+4. Tell your friends!
 
 ## Tech Used ##
 
