@@ -21,6 +21,11 @@ var app = angular.module('flipperNews', ['ui.router'])
 		var o = {
 			posts: []
 		};
+		o.getAll = function() {
+	 return $http.get('/posts').success(function(data){
+		 angular.copy(data, o.posts);
+	 });
+ };
 		return o;
 	}])
 	// main controller
