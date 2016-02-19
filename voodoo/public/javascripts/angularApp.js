@@ -17,7 +17,7 @@ var app = angular.module('flipperNews', ['ui.router'])
 		$urlRouterProvider.otherwise('home');
 	}])
 	// factory for posts
-	.factory('posts', [function() {
+	.factory('$http', 'posts', [function() {
 		var o = {
 			posts: []
 		};
