@@ -67,8 +67,8 @@ var app = angular.module('flipperNews', ['ui.router'])
 			}
 			//upvote feature
 			$scope.incrementUpvotes = function(post) {
-				post.upvotes += 1;
-			}
+	  posts.upvote(post);
+	};
 
 	}])
 	//PostsCtrl
