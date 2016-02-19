@@ -49,14 +49,10 @@ var app = angular.module('flipperNews', ['ui.router'])
 			$scope.addPost = function() {
 				//prevent users from posting empty post.
 				if ($scope.title === '' ) { return; }
-				$scope.posts.push({
+				posts.create({
 					title: $scope.title,
 					link: $scope.link,
-					upvotes: 0,
-					comments: [
-						{author: 'Joe', body: 'I too, oft, feel this way', upvotes: 0},
-						{author: 'Steve', body:'It is raining sideways!', upvotes: 0}
-					]
+
 				});
 				//clear out title and link after enter button is hit
 				$scope.title = '';
