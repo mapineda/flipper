@@ -14,10 +14,15 @@ var app = angular.module('flipperNews', ['ui.router'])
 		})
 
 		.state('posts', {
-			url: '/posts/{id}',
-			templateUrl: '/posts.html',
-			controller: 'PostsCtrl'
-		});
+  url: '/posts/{id}',
+  templateUrl: '/posts.html',
+  controller: 'PostsCtrl',
+  resolve: {
+    post: ['$stateParams', 'posts', function($stateParams, posts) {
+      return posts.get($stateParams.id);
+    }]
+  }
+});
 
 		$urlRouterProvider.otherwise('home');
 	}])
@@ -32,11 +37,28 @@ var app = angular.module('flipperNews', ['ui.router'])
 	 });
  };
 
+ o.get = function(id) {
+	 return $http.get('/posts/' + id).then(function(res){
+		 return res.data;
+	 });
+};
 	 o.create = function(post) {
 	 return $http.post('/posts', post).success(function(data){
 		 o.posts.push(data);
 	 });
-	};
+};
+
+	o.upvote = function(post) {
+  return $http.put('/posts/' + post._id + '/upvote')
+    .success(function(data){
+      post.upvotes += 1;
+    });
+};
+
+o.addComment = function(id, comment) {
+  return $http.post('/posts/' + id + '/comments', comment);
+};
+
 		return o;
 	}])
 	// main controller
@@ -49,14 +71,10 @@ var app = angular.module('flipperNews', ['ui.router'])
 			$scope.addPost = function() {
 				//prevent users from posting empty post.
 				if ($scope.title === '' ) { return; }
-				$scope.posts.push({
+				posts.create({
 					title: $scope.title,
 					link: $scope.link,
-					upvotes: 0,
-					comments: [
-						{author: 'Joe', body: 'I too, oft, feel this way', upvotes: 0},
-						{author: 'Steve', body:'It is raining sideways!', upvotes: 0}
-					]
+
 				});
 				//clear out title and link after enter button is hit
 				$scope.title = '';
@@ -64,22 +82,24 @@ var app = angular.module('flipperNews', ['ui.router'])
 			}
 			//upvote feature
 			$scope.incrementUpvotes = function(post) {
-				post.upvotes += 1;
-			}
+	  posts.upvote(post);
+	};
 
 	}])
 	//PostsCtrl
-	app.controller('PostsCtrl', ['$scope', '$stateParams', 'posts', function($scope, $stateParams, posts){
-		$scope.post = posts.posts[$stateParams.id];
+	app.controller('PostsCtrl', ['$scope', '$stateParams', 'posts', 'post', function($scope, $stateParams, posts, post){
+		$scope.post = post;
 
 		//post comment
 		$scope.addComment = function(){
 		  if($scope.body === '') { return; }
-		  $scope.post.comments.push({
+		  post.addComment(post.id, {
 		    body: $scope.body,
 		    author: 'user',
-		    upvotes: 0
-		  });
+		  }).success(function(comment) {
+				$scope.post.comments.push(comment); = 
+
+			});
 		  $scope.body = '';
 		};
 
