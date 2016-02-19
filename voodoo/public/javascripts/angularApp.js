@@ -14,10 +14,15 @@ var app = angular.module('flipperNews', ['ui.router'])
 		})
 
 		.state('posts', {
-			url: '/posts/{id}',
-			templateUrl: '/posts.html',
-			controller: 'PostsCtrl'
-		});
+  url: '/posts/{id}',
+  templateUrl: '/posts.html',
+  controller: 'PostsCtrl',
+  resolve: {
+    post: ['$stateParams', 'posts', function($stateParams, posts) {
+      return posts.get($stateParams.id);
+    }]
+  }
+});
 
 		$urlRouterProvider.otherwise('home');
 	}])
@@ -32,6 +37,11 @@ var app = angular.module('flipperNews', ['ui.router'])
 	 });
  };
 
+ o.get = function(id) {
+	 return $http.get('/posts/' + id).then(function(res){
+		 return res.data;
+	 });
+};
 	 o.create = function(post) {
 	 return $http.post('/posts', post).success(function(data){
 		 o.posts.push(data);
@@ -44,6 +54,11 @@ var app = angular.module('flipperNews', ['ui.router'])
       post.upvotes += 1;
     });
 };
+
+o.addComment = function(id, comment) {
+  return $http.post('/posts/' + id + '/comments', comment);
+};
+
 		return o;
 	}])
 	// main controller
@@ -72,17 +87,19 @@ var app = angular.module('flipperNews', ['ui.router'])
 
 	}])
 	//PostsCtrl
-	app.controller('PostsCtrl', ['$scope', '$stateParams', 'posts', function($scope, $stateParams, posts){
-		$scope.post = posts.posts[$stateParams.id];
+	app.controller('PostsCtrl', ['$scope', '$stateParams', 'posts', 'post', function($scope, $stateParams, posts, post){
+		$scope.post = post;
 
 		//post comment
 		$scope.addComment = function(){
 		  if($scope.body === '') { return; }
-		  $scope.post.comments.push({
+		  post.addComment(post.id, {
 		    body: $scope.body,
 		    author: 'user',
-		    upvotes: 0
-		  });
+		  }).success(function(comment) {
+				$scope.post.comments.push(comment); = 
+
+			});
 		  $scope.body = '';
 		};
 
