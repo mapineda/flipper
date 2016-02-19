@@ -31,6 +31,12 @@ var app = angular.module('flipperNews', ['ui.router'])
 		 angular.copy(data, o.posts);
 	 });
  };
+
+	 o.create = function(post) {
+	 return $http.post('/posts', post).success(function(data){
+		 o.posts.push(data);
+	 });
+	};
 		return o;
 	}])
 	// main controller
