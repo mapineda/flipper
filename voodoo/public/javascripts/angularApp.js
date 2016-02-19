@@ -5,7 +5,12 @@ var app = angular.module('flipperNews', ['ui.router'])
 		$stateProvider.state('home', {
 			url: '/home',
 			templateUrl: '/home.html',
-			controller: 'MainCtrl'
+			controller: 'MainCtrl',
+			resolve: {
+				postPromise: ['posts', function(posts) {
+					return posts.getAll();
+				}]
+			}
 		})
 
 		.state('posts', {
@@ -17,7 +22,7 @@ var app = angular.module('flipperNews', ['ui.router'])
 		$urlRouterProvider.otherwise('home');
 	}])
 	// factory for posts
-	.factory('posts', [function() {
+	.factory('posts', [ '$http', function($http) {
 		var o = {
 			posts: []
 		};
