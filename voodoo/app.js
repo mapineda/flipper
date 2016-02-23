@@ -12,7 +12,7 @@ mongoose.connect('mongodb://localhost/news')
 
 require('./models/Posts');
 require('./models/Comments');
-require('./models/User');
+require('./models/Users');
 require('./config/passport');
 
 var routes = require('./routes/index');
