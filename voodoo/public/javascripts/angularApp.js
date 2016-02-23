@@ -14,15 +14,15 @@ var app = angular.module('flipperNews', ['ui.router'])
 		})
 
 		.state('posts', {
-  url: '/posts/{id}',
-  templateUrl: '/posts.html',
-  controller: 'PostsCtrl',
-  resolve: {
-    post: ['$stateParams', 'posts', function($stateParams, posts) {
-      return posts.get($stateParams.id);
-    }]
-  }
-});
+		  url: '/posts/{id}',
+		  templateUrl: '/posts.html',
+		  controller: 'PostsCtrl',
+		  resolve: {
+		    post: ['$stateParams', 'posts', function($stateParams, posts) {
+		      return posts.get($stateParams.id);
+		    }]
+		  }
+		});
 
 		$urlRouterProvider.otherwise('home');
 	}])
@@ -92,15 +92,14 @@ o.addComment = function(id, comment) {
 
 		//post comment
 		$scope.addComment = function(){
-		  if($scope.body === '') { return; }
-		  post.addComment(post.id, {
-		    body: $scope.body,
-		    author: 'user',
-		  }).success(function(comment) {
-				$scope.post.comments.push(comment); = 
-
-			});
-		  $scope.body = '';
-		};
+  if($scope.body === '') { return; }
+  posts.addComment(post._id, {
+    body: $scope.body,
+    author: 'user',
+  }).success(function(comment) {
+    $scope.post.comments.push(comment);
+  });
+  $scope.body = '';
+};
 
 	}]);
