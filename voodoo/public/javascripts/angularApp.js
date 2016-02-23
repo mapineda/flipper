@@ -121,10 +121,11 @@ var app = angular.module('flipperNews', ['ui.router'])
 	.controller('NavCtrl', ['$scope', 'auth', function($scope, auth) {
 	  $scope.isLoggedIn = auth.isLoggedIn;
 	  $scope.currentUser = auth.currentUser;
+		$scope.isLoggedIn = auth.isLoggedIn;
 	  $scope.logOut = auth.logOut;
 }])
 	// factory for posts
-	.factory('posts', [ '$http', function($http) {
+	.factory('posts', [ '$http', 'auth', function($http, auth) {
 		var o = {
 			posts: []
 		};
@@ -139,30 +140,36 @@ var app = angular.module('flipperNews', ['ui.router'])
 		 return res.data;
 	 });
 };
-	 o.create = function(post) {
-	 return $http.post('/posts', post).success(function(data){
-		 o.posts.push(data);
-	 });
-};
-
-	o.upvote = function(post) {
-  return $http.put('/posts/' + post._id + '/upvote')
-    .success(function(data){
-      post.upvotes += 1;
-    });
+o.upvote = function(post) {
+  return $http.put('/posts/' + post._id + '/upvote', null, {
+    headers: {Authorization: 'Bearer '+auth.getToken()}
+  }).success(function(data){
+    post.upvotes += 1;
+  });
 };
 
 o.addComment = function(id, comment) {
-  return $http.post('/posts/' + id + '/comments', comment);
+  return $http.post('/posts/' + id + '/comments', comment, {
+    headers: {Authorization: 'Bearer '+auth.getToken()}
+  });
+};
+
+o.upvoteComment = function(post, comment) {
+  return $http.put('/posts/' + post._id + '/comments/'+ comment._id + '/upvote', null, {
+    headers: {Authorization: 'Bearer '+auth.getToken()}
+  }).success(function(data){
+    comment.upvotes += 1;
+  });
 };
 
 		return o;
 	}])
 	// main controller
-	.controller('MainCtrl', ['$scope', 'posts', function($scope, posts) {
+	.controller('MainCtrl', ['$scope', 'posts', 'auth', function($scope, posts, auth) {
 			$scope.test = 'Hello World!';
 
 			$scope.posts = posts.posts;
+			$scope.isLoggedIn = auth.isLoggedIn;
 
 			//post posts
 			$scope.addPost = function() {
