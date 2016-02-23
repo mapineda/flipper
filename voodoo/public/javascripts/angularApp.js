@@ -2,7 +2,8 @@ var app = angular.module('flipperNews', ['ui.router'])
 
 	.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
-		$stateProvider.state('home', {
+		$stateProvider
+		.state('home', {
 			url: '/home',
 			templateUrl: '/home.html',
 			controller: 'MainCtrl',
@@ -12,7 +13,6 @@ var app = angular.module('flipperNews', ['ui.router'])
 				}]
 			}
 		})
-
 		.state('posts', {
 		  url: '/posts/{id}',
 		  templateUrl: '/posts.html',
@@ -20,9 +20,29 @@ var app = angular.module('flipperNews', ['ui.router'])
 		  resolve: {
 		    post: ['$stateParams', 'posts', function($stateParams, posts) {
 		      return posts.get($stateParams.id);
-		    }]
-		  }
-		});
+		    	}]
+				}
+		  })
+			.state('login', {
+			  url: '/login',
+			  templateUrl: '/login.html',
+			  controller: 'AuthCtrl',
+			  onEnter: ['$state', 'auth', function($state, auth){
+			    if(auth.isLoggedIn()){
+			      $state.go('home');
+			    }
+			  }]
+			})
+			.state('register', {
+			  url: '/register',
+			  templateUrl: '/register.html',
+			  controller: 'AuthCtrl',
+			  onEnter: ['$state', 'auth', function($state, auth){
+			    if(auth.isLoggedIn()){
+			      $state.go('home');
+			    }
+			  }]
+			});
 
 		$urlRouterProvider.otherwise('home');
 	}])
@@ -72,20 +92,46 @@ var app = angular.module('flipperNews', ['ui.router'])
 		};
 
 		auth.logOut = function(){
-		  $window.localStorage.removeItem('flapper-news-token');
+		  $window.localStorage.removeItem('voodoo-token');
 		};
 
 	  return auth;
 	}])
 
+	.controller('AuthCtrl', ['$scope', '$state', 'auth', function($scope, $state, auth) {
+  $scope.user = {};
+
+  $scope.register = function(){
+    auth.register($scope.user).error(function(error){
+      $scope.error = error;
+    }).then(function(){
+      $state.go('home');
+    });
+  };
+
+  $scope.logIn = function(){
+    auth.logIn($scope.user).error(function(error){
+      $scope.error = error;
+    }).then(function(){
+      $state.go('home');
+    });
+  };
+}])
+
+	.controller('NavCtrl', ['$scope', 'auth', function($scope, auth) {
+	  $scope.isLoggedIn = auth.isLoggedIn;
+	  $scope.currentUser = auth.currentUser;
+		$scope.isLoggedIn = auth.isLoggedIn;
+	  $scope.logOut = auth.logOut;
+}])
 	// factory for posts
-	.factory('posts', [ '$http', function($http) {
+	.factory('posts', [ '$http', 'auth', function($http, auth) {
 		var o = {
 			posts: []
 		};
 		o.getAll = function() {
-	 return $http.get('/posts').success(function(data){
-		 angular.copy(data, o.posts);
+	 		return $http.get('/posts').success(function(data){
+				angular.copy(data, o.posts);
 	 });
  };
 
@@ -94,30 +140,36 @@ var app = angular.module('flipperNews', ['ui.router'])
 		 return res.data;
 	 });
 };
-	 o.create = function(post) {
-	 return $http.post('/posts', post).success(function(data){
-		 o.posts.push(data);
-	 });
-};
-
-	o.upvote = function(post) {
-  return $http.put('/posts/' + post._id + '/upvote')
-    .success(function(data){
-      post.upvotes += 1;
-    });
+o.upvote = function(post) {
+  return $http.put('/posts/' + post._id + '/upvote', null, {
+    headers: {Authorization: 'Bearer '+auth.getToken()}
+  }).success(function(data){
+    post.upvotes += 1;
+  });
 };
 
 o.addComment = function(id, comment) {
-  return $http.post('/posts/' + id + '/comments', comment);
+  return $http.post('/posts/' + id + '/comments', comment, {
+    headers: {Authorization: 'Bearer '+auth.getToken()}
+  });
+};
+
+o.upvoteComment = function(post, comment) {
+  return $http.put('/posts/' + post._id + '/comments/'+ comment._id + '/upvote', null, {
+    headers: {Authorization: 'Bearer '+auth.getToken()}
+  }).success(function(data){
+    comment.upvotes += 1;
+  });
 };
 
 		return o;
 	}])
 	// main controller
-	.controller('MainCtrl', ['$scope', 'posts', function($scope, posts) {
+	.controller('MainCtrl', ['$scope', 'posts', 'auth', function($scope, posts, auth) {
 			$scope.test = 'Hello World!';
 
 			$scope.posts = posts.posts;
+			$scope.isLoggedIn = auth.isLoggedIn;
 
 			//post posts
 			$scope.addPost = function() {
